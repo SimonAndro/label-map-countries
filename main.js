@@ -33,11 +33,11 @@ let countries = [{
         countryname: "CAMEROON",
         state: 0
     },
-    {
-        a2: "sm_state_CV",
-        countryname: "CAPE VERDE",
-        state: 0
-    },
+    // {
+    //     a2: "sm_state_CV",
+    //     countryname: "CAPE VERDE",
+    //     state: 0
+    // },
     {
         a2: "sm_state_CF",
         countryname: "CENTRAL AFRICAN REPUBLIC",
@@ -68,11 +68,11 @@ let countries = [{
         countryname: "COTE D’IVOIRE",
         state: 0
     },
-    {
-        a2: "sm_state_DJ",
-        countryname: "DJIBOUTI",
-        state: 0
-    },
+    // {
+    //     a2: "sm_state_DJ",
+    //     countryname: "DJIBOUTI",
+    //     state: 0
+    // },
     {
         a2: "sm_state_EG",
         countryname: "EGYPT",
@@ -123,11 +123,11 @@ let countries = [{
         countryname: "KENYA",
         state: 0
     },
-    {
-        a2: "sm_state_LS",
-        countryname: "LESOTHO",
-        state: 0
-    },
+    // {
+    //     a2: "sm_state_LS",
+    //     countryname: "LESOTHO",
+    //     state: 0
+    // },
     {
         a2: "sm_state_LR",
         countryname: "LIBERIA",
@@ -250,7 +250,7 @@ let countries = [{
     },
     {
         a2: "sm_state_TZ",
-        countryname: "TANZANIA, UNITED REPUBLIC OF",
+        countryname: "TANZANIA, UR",
         state: 0
     },
     {
@@ -299,25 +299,33 @@ $(document).ready(function () {
     countries = shuffle(countries);
 
     $("#country-at-cursor").html(countries[countryIndex].countryname);
+    $("#score").html(0 + " / " + countries.length);
+    
+    var myTimer = setInterval(setTime, 1000);
 
+    var score = 0;
     $("#map-area").on('mouseup', function (e) {
-        var target = $(e.target).attr("class");
+        if (countryIndex < countries.length) {
+            var target = $(e.target).attr("class");
 
-        var option = countries[countryIndex].a2;
-        console.log(target,option);
-        if (target == option) {
-            $("." + option).css({
-                "fill": "#c0ffee"
-            });
-        } else {
-            $("." + option).css({
-                "fill": "#F00"
-            });
-        }
-        if(countryIndex < countries.length){
+            var option = countries[countryIndex].a2;
+            console.log(target, option);
+            if (target == option) {
+                $("." + option).css({
+                    "fill": "#c0ffee"
+                });
+
+                $("#score").html(++score + " / " + countries.length);
+            } else {
+                $("." + option).css({
+                    "fill": "#F00"
+                });
+            }
+
             $("#country-at-cursor").html(countries[++countryIndex].countryname);
-        }else{
+        } else {
             $("#country-at-cursor").html("");
+            clearInterval(myTimer);
         }
     });
 });
@@ -340,4 +348,21 @@ function shuffle(array) {
     }
 
     return array;
+}
+
+var totalSeconds = 0;
+
+function setTime() {
+    ++totalSeconds;
+    $("#minutes").html(pad(totalSeconds % 60));
+    $("#seconds").html(pad(parseInt(totalSeconds / 60)));
+}
+
+function pad(val) {
+    var valString = val + "";
+    if (valString.length < 2) {
+        return "0" + valString;
+    } else {
+        return valString;
+    }
 }
