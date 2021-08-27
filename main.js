@@ -299,8 +299,9 @@ $(document).ready(function () {
     countries = shuffle(countries);
 
     $("#country-at-cursor").html(countries[countryIndex].countryname);
+    $("#country-name").html(countries[countryIndex].countryname);
     $("#score").html(0 + " / " + countries.length);
-    
+
     var myTimer = setInterval(setTime, 1000);
 
     var score = 0;
@@ -323,6 +324,7 @@ $(document).ready(function () {
             }
 
             $("#country-at-cursor").html(countries[++countryIndex].countryname);
+            $("#country-name").html(countries[countryIndex].countryname);
         } else {
             $("#country-at-cursor").html("");
             clearInterval(myTimer);
